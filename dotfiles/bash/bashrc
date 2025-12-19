@@ -16,4 +16,4 @@ if [ -f /etc/bash_completion ]; then
 fi
 
 PS1='\[\e[32m\]\u@\h\[\e[0m\] \[\e[34m\]\w\[\e[0m\] \$ '
-set -o vi
+set -o emacs

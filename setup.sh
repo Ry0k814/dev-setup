@@ -33,6 +33,7 @@ log "Starting setup (root: $ROOT_DIR, dry-run: $DRY_RUN)"
 
 run "$ROOT_DIR/bin/10_create_dirs.sh"
 run "$ROOT_DIR/bin/20_install_packages.sh"
+run "$ROOT_DIR/bin/25_install_mise.sh"
 run "$ROOT_DIR/bin/30_setup_dotfiles.sh"
 run "$ROOT_DIR/bin/40_setup_git.sh"
 run "$ROOT_DIR/bin/50_setup_vim.sh"

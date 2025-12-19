@@ -1,0 +1,19 @@
+# ~/.config/dotfiles/bashrc
+
+[[ $- != *i* ]] && return
+
+source "$HOME/.config/dotfiles/exports.bash"
+source "$HOME/.config/dotfiles/aliases.bash"
+source "$HOME/.config/dotfiles/functions.bash"
+
+HISTSIZE=10000
+HISTFILESIZE=10000
+HISTCONTROL=ignoredups:erasedups
+shopt -s histappend
+
+if [ -f /etc/bash_completion ]; then
+  source /etc/bash_completion
+fi
+
+PS1='\[\e[32m\]\u@\h\[\e[0m\] \[\e[34m\]\w\[\e[0m\] \$ '
+set -o vi

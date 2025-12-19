@@ -4,27 +4,39 @@ set -Eeuo pipefail
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 source "$ROOT_DIR/bin/00_lib.sh"
 
-# すでにあるなら何もしない
-if command -v mise >/dev/null 2>&1; then
-  ok "mise already installed: $(command -v mise)"
+MISE_BIN="${MISE_BIN:-$HOME/.local/bin/mise}"
+INSTALL_URL="https://mise.jdx.dev/install.sh"
+
+# すでにバイナリがあるなら何もしない（PATHに依存しない）
+if [[ -x "$MISE_BIN" ]]; then
+  ok "mise already installed: $MISE_BIN"
+  # ついでにバージョン表示（dry-runなら表示だけ）
+  if ! is_dry_run; then
+    "$MISE_BIN" --version || true
+  fi
   exit 0
 fi
 
-INSTALL_DIR="$HOME/.local/bin"
-INSTALL_URL="https://mise.jdx.dev/install.sh"
+log "Installing mise (expected path: $MISE_BIN)"
 
-log "Installing mise to $INSTALL_DIR"
+do_cmd mkdir -p "$(dirname "$MISE_BIN")"
 
-# ~/.local/bin は PATH に後で入れる（dotfiles 側の責務）
-do_cmd mkdir -p "$INSTALL_DIR"
-
-# 公式 install script
+# 公式インストールスクリプトを実行
+# （標準で ~/.local/bin に入る想定）
 do_cmd curl -fsSL "$INSTALL_URL" | do_cmd sh
 
-# 念のため存在確認
-if ! is_dry_run && ! command -v mise >/dev/null 2>&1; then
-  err "mise installation failed"
-  exit 1
+# インストール結果を「ファイル存在」で確認（PATHに依存しない）
+if is_dry_run; then
+  ok "dry-run: skipped mise post-check"
+  exit 0
 fi
 
-ok "mise installed"
+if [[ -x "$MISE_BIN" ]]; then
+  ok "mise installed: $MISE_BIN"
+  "$MISE_BIN" --version || true
+  exit 0
+fi
+
+err "mise installation check failed: $MISE_BIN not found or not executable"
+err "Tip: verify install output and check $HOME/.local/bin"
+exit 1

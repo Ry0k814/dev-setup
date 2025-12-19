@@ -30,4 +30,7 @@ safe_ln_sf "$DOT_DST/gitconfig"             "$HOME/.gitconfig"
 safe_ln_sf "$DOT_DST/gitignore_global"      "$HOME/.gitignore_global"
 safe_ln_sf "$DOT_DST/vimrc"                 "$HOME/.vimrc"
 
+do_cmd mkdir -p "$HOME/.config/mise"
+do_cmd touch "$HOME/.config/mise/config.toml"
+
 ok "Dotfiles linked via ~/.config/dotfiles (bash/git/vim)."

@@ -1,0 +1,19 @@
+[user]
+  name = Your Name
+  email = your.email@example.com
+
+[core]
+  editor = vim
+  excludesfile = ~/.gitignore_global
+
+[alias]
+  st = status
+  co = checkout
+  br = branch
+  ci = commit
+
+[init]
+  defaultBranch = main
+
+[pull]
+  rebase = false

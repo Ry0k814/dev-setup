@@ -1,0 +1,9 @@
+git
+curl
+wget
+vim
+tmux
+ripgrep
+fzf
+unzip
+ca-certificates
